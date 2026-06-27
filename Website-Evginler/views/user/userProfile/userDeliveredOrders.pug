@@ -1,0 +1,86 @@
+extends ../../layout/main-layout.pug
+
+block content 
+    include ../../layout/user-profile-layout.pug
+        block userContent
+            .container 
+                .userOrders 
+                    h4 Teslim Edilen Siparişlerim 
+                    each order in orders
+                        .tableContainer
+                            table.table.table-striped.table-orders
+                                thead.userOrderTheadContainer          
+                                    tr
+                                        th Sipariş No: #{order.orderId}
+                                        th Sipariş Tarihi: #{order.createdAtFormatted}
+                                tbody    
+                                    tr
+                                        td(colspan="2")
+                                            table.table.table-striped
+                                                thead.allOrdersThead
+                                                    tr
+                                                        th Ürün 
+                                                        th Adet
+                                                        th Fiyat
+                                                        th Ürün Resmi
+                                                        th Durum
+                                                tbody.allOrdersTbody
+                                                    if order.products.length > 0
+                                                        each product in order.products
+                                                            tr
+                                                                td #{product.name}
+                                                                td #{product.quantity}
+                                                                td #{product.price}₺
+                                                                td 
+                                                                    img(src=`${product.imageUrl}`, alt="", style="width:100px; height:80px;")
+                                                                if order.isDelivered === true 
+                                                                    td 
+                                                                        |Teslim Edildi
+                                                                        i.fa-solid.fa-check(style="color:green; margin-left:7px")
+                                                                        button.btn.btn-primary(type="button" class="btn" data-bs-toggle="modal" data-bs-target=`#staticBackdrop${order._id}`) Ürünü İade Et
+                                                                        .modal.fade(id=`staticBackdrop${order._id}`, data-bs-backdrop="static", data-bs-keyboard="false", tabindex="-1", aria-labelledby=`staticBackdropLabel${order._id}`, aria-hidden="true")
+                                                                            .modal-dialog
+                                                                                .modal-content
+                                                                                    .modal-header
+                                                                                        h2.modal-title.fs-5(id=`staticBackdropLabel${order._id}`) İade Aşaması
+                                                                                        button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                                                                                    .modal-body
+                                                                                        form(action=`/returnedOrders/${order._id}`, method="POST")
+                                                                                            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                                                                            input(type="hidden" name="productId" value=`${product.productId}`)
+                                                                                            h5 İade Şartları:  
+                                                                                            a(href="/") İade Politikası İçin Lütfen Okuyunuz !
+                                                                                    
+                                                                                            h5 Ürünü Nasıl İade Edeceğim ?
+                                                                                        
+                                                                                            ol(type="number")
+                                                                                                li * Ürünün iade sebebini aşağıdaki alana yazarak "İade Et" butonuna tılayarak iade talebi oluşturun. 
+                                                                                                |(İade işlemi ile ilgili tüm bilgiler profilinizde belirtmiş olduğunuz e-posta adresiniz üzerinde size iletilecektir.) 
+                                                                                                br
+                                                                                                br
+                                                                                                li * Ürün size teslim edildiği halde tekrardan zarar görmeyecek şekilde ürünü kutusunda tekrardan koyun.
+                                                                                                br
+                                                                                                li * Ürünü size en yakın 
+                                                                                                    a(href="/") anlaşmalı 
+                                                                                                    |olduğumuz kargo şirketine götürün.
+                                                                                                br
+                                                                                                li * Ürünü "Karagöl Meydan Cd./No:27/A-B,75000/Evginler Ev Tekstil LTD. ŞTİ/Ardahan Merkez" adresine hiçbir ücret ödemeden kargolayın.
+                                                                                                br
+                                                                                                li İade işleminizi tamamladınız 
+                                                                                                    i.fa.fa-check-circle(aria-hidden="true")
+                                                                                                br
+                                                                                                li Ürün incelendikten sonra ücret iade işleminiz 2 iş günü içinde yapılacaktır.
+                                                                                                |(Ücret iadesi tarafımızdan yapıldıktan sonra kartınıza yansıması bankanızın işlem süresine göre değişiklik gösterebilir.)
+                                                                                                
+                                                                                            .mb-3
+                                                                                                label(for="returnReason").form-label İade Sebebi  
+                                                                                                textarea.form-control(name="returnReason", rows="3", required)
+                                                                                            .modal-footer
+                                                                                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Kapat
+                                                                                                button.btn.btn-primary(type="submit") İade Et
+                                        
+                                                    else 
+                                                        tr
+                                                            td(colspan="5")
+                                                                h1 Henüz bir siparişin yok...
+                                                

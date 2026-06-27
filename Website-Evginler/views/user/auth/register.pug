@@ -1,0 +1,60 @@
+extends ../../layout/main-layout.pug
+
+block content 
+    h1.home-title.text-center Kaydol
+    .container.p-5.d-flex.justify-content-center
+        form(action="/register", method="POST") 
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            .name-surname.d-flex
+                div.mb-3(style="margin-right:10px;")
+                    label(for="name").form-label İsim
+                    input.name(type="text" name="name" placeholder="Adınız" aria-describedby="nameHelp" class="form-control")
+                div.mb-3
+                    label(for="surname").form-label Soyisim
+                    input.surname(type="text" name="surname" placeholder="Soyadınız" aria-describedby="surnameHelp" class="form-control")
+            
+            div.mb-3
+                label(for="exampleInputEmail1").form-label E-Mail 
+                input(type="email" name="email" placeholder="example@example.com" aria-describedby="emailHelp" class="form-control")
+
+            div.mb-3
+                label(for="phone").form-label Telefon
+                input.phone(type="tel" name="phone" placeholder="+90" aria-describedby="phoneHelp" class="form-control")
+
+            div.mb-3
+                label(for="password").form-label Şifre 
+                input(type="password" name="password" placeholder="*********" aria-describedby="passwordHelp" class="form-control")
+        
+            
+            button(type="submit").btn.loginBtn Kaydol
+
+
+
+//- .col-6
+//-     div.mb-3
+//-         label(for="country").form-label Ülke
+//-         input(type="text" name="adress[country]" aria-describedby="countryHelp" class="form-control" value="Türkiye" readonly)
+
+//-     div.mb-3
+//-         label(for="city").form-label Şehir
+//-         input(type="text" name="adress[city]" aria-describedby="cityHelp" class="form-control")
+
+//-     div.mb-3
+//-         label(for="zipCode").form-label Posta Kodu
+//-         input(type="text" name="adress[zipCode]" aria-describedby="zipCodeHelp" class="form-control")
+    
+//-     div.mb-3
+//-         label(for="street").form-label Sokak
+//-         input(type="text" name="adress[street]" aria-describedby="streetHelp" class="form-control")
+
+//-     div.mb-3
+//-         label(for="district").form-label İlçe
+//-         input(type="text" name="adress[district]" aria-describedby="districtHelp" class="form-control")
+    
+//-     div.mb-3
+//-         label(for="fullAdress").form-label Adres
+//-         input(type="text" name="adress[fullAdress]" aria-describedby="fullAdressHelp" class="form-control")
+
+//-     div.mb-3
+//-         label(for="title").form-label Adres Başlığı
+//-         input(type="text" name="adress[title]" aria-describedby="titleHelp" class="form-control")

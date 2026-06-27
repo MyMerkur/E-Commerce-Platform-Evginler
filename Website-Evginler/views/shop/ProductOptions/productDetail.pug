@@ -1,0 +1,67 @@
+extends ../../layout/main-layout.pug
+
+block content
+    .container
+        .row.p-5
+            .col-lg-6.col-sm-12
+                if Array.isArray(product.imageUrl) && product.imageUrl.length > 1
+                    .carousel.slide(data-bs-ride="carousel" id="carouselExampleControls")
+                        button.carousel-control-prev(type="button" data-bs-target="#carouselExampleControls", data-bs-slide="prev")
+                            span.carousel-control-prev-icon(aria-hidden="true")
+                            span.visually-hidden
+                                i.bi.bi-chevron-left
+                        .carousel-inner
+                            each imageUrl, index in product.imageUrl
+                                if index === 0
+                                    .carousel-item.active
+                                        img.card-img-top(src=imageUrl, alt="..." class="d-block w-100")
+                                else
+                                    .carousel-item
+                                        img.card-img-top(src=imageUrl, alt="..." class="d-block w-100")
+                        button.carousel-control-next(type="button" data-bs-target="#carouselExampleControls", data-bs-slide="next")
+                            span.carousel-control-next-icon(aria-hidden="true")
+                            span.visually-hidden
+                                i.bi.bi-chevron-right
+                else if product.imageUrl
+                    img.card-img-top(src=src=product.imageUrl[0], alt="..." class="d-block w-100")
+                else
+                    p Üzgünüz, ürün bulunamadı.
+            .col-lg-6.col-sm-12.text-center(style="justify-content:space-between;")
+                h1 #{product.name}
+                form(action="/favoriteProducts" method="POST") 
+                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                    input(type="hidden" name="productId" value=product._id)
+                    button(type="submit")#favoriteButton  
+                        i.fa-regular.fa-heart
+                hr
+                .container.text-start 
+                    .row 
+                        .col-12 
+                            if product.discount > 0
+                                h5(style="text-decoration-line: line-through;") #{formatedPrice}
+                                .discountPrice
+                                    span %#{product.discount} İndirim
+                                    h5 #{formattedDiscountedPrice} 
+                                    
+                            else
+                                h5 #{formatedPrice} ₺
+                hr
+                h5 Ürün Özellikleri
+                .container.text-start  
+                    .row 
+                        .col-12 
+                            p #{product.description}
+                hr
+                form(action="/add-to-card", method="POST" style="display: flex; flex-direction: column;")
+                    input(type="hidden" name="_csrf" value=csrfToken) 
+                    input(type="hidden" name="productId" value=product._id)
+                    .container(style="display: flex;")
+                        label(for="quantity") Adet:
+                        input(type="number" name="quantity" id="quantity" value="1" min="1" max="10" placeholder="Adet giriniz" style="width:30%;")
+                    button.btn.saved_address_btn(type="submit") Sepete Ekle
+       
+
+
+
+
+

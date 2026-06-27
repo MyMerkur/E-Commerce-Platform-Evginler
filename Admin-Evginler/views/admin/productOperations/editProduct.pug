@@ -1,0 +1,88 @@
+extends ../../layout/main_layout.pug
+
+block content
+    .container.m-5.p-5
+        .row 
+            .col-12
+                h1.text-center Ürün Düzenle
+    form(action="/editProduct" method="POST")   
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        input(type="hidden" name='productid' value=`${product._id}`)
+
+        .form-group.row     
+            label(for="name").col-sm-2.col-form-label Ürün İsmi:
+            .col-sm-10  
+                input.form-control(type="text" name="name" value=`${product.name}`) 
+
+        .form-group.row     
+            label(for="price").col-sm-2.col-form-label Ürün Fiyatı:
+            .col-sm-10  
+                input.form-control(type="text" name="price" value=`${product.price}`) 
+
+        .form-group.row
+            label(for="discount").col-sm-2.col-form-label İndirim Oranı
+            .col-sm-10
+                input.form-control#discount(type="text" name="discount" placeholder="% Bir Değer Giriniz" value=`${product.discount}`)
+
+        .form-group.row     
+            label(for="stock").col-sm-2.col-form-label Ürün Stok Durumu:
+            .col-sm-10  
+                input.form-control(type="text" name="stock" value=`${product.stock}`) 
+
+        .form-group.row     
+            label(for="description").col-sm-2.col-form-label Ürün Açıklaması:
+            .col-sm-10  
+                textarea.form-control(cols="30" rows="10" name="description") #{product.description} 
+        br
+        .form-group.row 
+            label(for="imageUrl1").col-sm-2.col-form-label Ürün Görseli 1
+            .col-sm-10 
+                img(src=`${product.imageUrl[0]}` width="100px;" alt="")
+                br
+                input.form-control-file#imageUrl1(type="text" name="imageUrl1" accept="image/*" value=`${product.imageUrl[0]}`)
+        .form-group.row 
+            label(for="imageUrl2").col-sm-2.col-form-label Ürün Görseli 2
+            .col-sm-10 
+                img(src=`${product.imageUrl[1]}` width="100px;" alt="")
+                br
+                input.form-control-file#imageUrl2(type="text" name="imageUrl2" accept="image/*" value=`${product.imageUrl[1]}`)
+        .form-group.row 
+            label(for="imageUrl3").col-sm-2.col-form-label Ürün Görseli 3
+            .col-sm-10 
+                img(src=`${product.imageUrl[2]}` width="100px;" alt="")
+                br
+                input.form-control-file#imageUrl3(type="text" name="imageUrl3" accept="image/*" value=`${product.imageUrl[2]}`)
+        br
+        .form-group.row
+            label(for="categoryId").col-sm-2.col-form-label Kategori:
+            .col-sm-10
+                each category in categories 
+                    input(type="checkbox" name="categoryId" value=`${category._id}` checked = category.selected)
+                    | #{category.name}
+                    br
+        br
+
+        .form-group.row 
+            label(for='subcategoryId').col-sm-2.col-form-label Alt Kategori 
+            .col-sm-10 
+                select.form-control(name="subcategoryId")
+                    option(value="-1") Alt Kategori Seç
+                    each category in categories 
+                        if category.subcategories.length > 0
+                            each subcategory in category.subcategories
+                                if product.subcategoryId && product.subcategoryId.toString() === subcategory._id.toString()
+                                    option(name=`${subcategory._id}`, selected) #{subcategory}
+                                else
+                                    option(name=`${subcategory._id}`) #{subcategory}
+        br
+        .form-group.row
+            label(for="brandId").col-sm-2.col-form-label Marka:
+            .col-sm-10
+                each brand in brands 
+                    input(type="checkbox" name="brandId" value=`${brand._id}` checked = brand.selected)
+                    | #{brand.name}
+                    br
+        br
+        .form-group.row 
+            .col-sm-10.offset-sm-2 
+                 input(type="submit" value="Ürünü Kaydet").btn.btn-primary

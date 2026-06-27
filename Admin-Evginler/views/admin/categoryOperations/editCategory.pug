@@ -1,0 +1,30 @@
+extends ../../layout/main_layout.pug
+
+block content
+    .container.mt-5.p-5
+        h1.text-center Kategori Düzenle
+
+        form(action=`/editCategory/${category._id}`, method="POST") 
+            input(type="hidden" name='_csrf' value=`${csrfToken}`)
+            .form-group.row 
+                label(form='name').col-sm-2.col-form-label Kategori Adı
+                .col-sm-10 
+                    input.form-control(type='text' name='name' value=`${category.name}`)
+
+            .form-group.row 
+                label(for='subcategories').col-sm-2.col-form-label Alt Kategoriler
+                .col-sm-10#subcategoriesContainer
+                    each subcategory in category.subcategories
+                        input.form-control(type='text' name='subcategories' value=subcategory placeholder='Alt kategori ismi')
+            
+            .form-group.row
+                .col-sm-10.offset-sm-2
+                    button.btn.btn-secondary(type='button' id='addSubcategoryButton') + Alt Kategori Ekle
+
+            .form-group.row 
+                .col-sm-10.offset-sm-2  
+                    input(type="submit" value='Kategoriyi Kaydet').btn.btn-primary
+
+
+
+                

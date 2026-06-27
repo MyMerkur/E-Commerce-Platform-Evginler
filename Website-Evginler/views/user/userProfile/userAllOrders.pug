@@ -1,0 +1,53 @@
+extends ../../layout/main-layout.pug
+block content 
+    include ../../layout/user-profile-layout.pug
+        block userContent
+            .container 
+                .userOrders 
+                    h4 Siparişlerim 
+                each order in orders
+                    .tableContainer
+                        table.table.table-striped.table-orders
+                            thead.userOrderTheadContainer           
+                                tr
+                                    th Sipariş No: #{order.orderId}
+                                    th Sipariş Tarihi: #{order.createdAtFormatted}
+                            tbody    
+                                tr
+                                    td.ordersTable(colspan="2")
+                                        table.table.table-striped
+                                            thead.allOrdersThead
+                                                tr
+                                                    th Ürün 
+                                                    th Adet
+                                                    th Fiyat
+                                                    th Ürün Resmi
+                                                    th Durum
+                                                    th Kargo Firması
+                                                    if order.trackingNumber
+                                                        th Kargo Takip Numarası
+                                            tbody.allOrdersTbody
+                                                if order.products.length > 0
+                                                    each product in order.products
+                                                        tr
+                                                            td #{product.name}
+                                                            td #{product.quantity}
+                                                            td #{product.price}₺
+                                                            td 
+                                                                img(src=`${product.imageUrl}`, alt="" style="width:100px; height:80px;")
+                                                            if order.trackingNumber 
+                                                                td 
+                                                                    | Kargoya Verildi 
+                                                                    i.fa-solid.fa-truck  
+
+                                                            else 
+                                                                td 
+                                                                    | Sipariş Hazırlanıyor
+                                                                    i.fa-solid.fa-box-open
+                                                            td #{order.courier}
+                                                            if order.trackingNumber
+                                                                td #{order.trackingNumber}
+                                                else 
+                                                    tr
+                                                        td(colspan="5")
+                                                            h1 Henüz bir siparişin yok...

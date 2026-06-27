@@ -1,0 +1,61 @@
+extends ../../layout/main_layout.pug
+
+block content
+    .container.mt-5.p-5 
+
+        if action !== 'undefined' && action === 'delete'
+            .alert.alert-danger 
+                | Ürün Silindi
+        if action !== 'undefined' && action === 'submit'
+            .alert.alert-success 
+                | Ürün Eklendi
+        if action !== 'undefined' && action === 'edit'
+            .alert.alert-success 
+                | Ürün Güncellendi
+
+        
+        form(action="/products", method="GET" class="mb-3")
+            .form-group
+                label(for="searchInput") Ürün Ara:
+                input#searchInput.form-control(type="text" name="searchQuery" placeholder="Ürün adı veya kategori adı ile arayın")
+
+        if products.length > 0
+            table.table.table-bordered 
+                thead  
+                    tr 
+                        th Ürün İsmi
+                        th(style="width:150px;") Ürün Birim Fiyatı
+                        if products[0].discount > 0
+                            th İndirimli Fiyatı
+                        th Stok
+                        th Görsel
+                        th Ürün Kategorisi
+                        th Marka
+                        th İşlemler
+                tbody   
+                    each product in products 
+                        tr 
+                            td #{product.name}
+                            td #{product.price} ₺
+                            if product.discount > 0
+                                td #{product.discountedPrice} ₺
+                            td #{product.stock} Adet
+                            td 
+                                img(src=`${product.imageUrl[0]}`, width="80px" alt="")
+                            td 
+                                each category in product.categories
+                                    span #{category.name}
+                                    br
+                            td 
+                                each brand in product.brands
+                                    span #{brand.name}
+                                    br
+                            td 
+                                a.btn.btn-primary.btn-sm.mr-2(href=`/editProduct/${product._id}`) Düzenle
+
+                                form(action="/deleteProduct", method="POST")
+                                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                    input(type="hidden" name="productid" value=`${product._id}`) 
+                                    button(type="submit").btn.btn-danger.btn-sm Sil
+        else    
+            h1 Ürün Yok

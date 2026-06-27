@@ -1,0 +1,24 @@
+extends ../../layout/main-layout.pug
+
+block content
+    include ../../layout/user-profile-layout.pug
+        block userContent
+            .container 
+                .userOrders 
+                    h4 Favori Ürünlerim
+                    each favorite in favorites
+                        .col-4
+                            a(href=`/productDetail/${favorite._id}`)
+                                .card
+                                    if Array.isArray(favorite.imageUrl) && favorite.imageUrl.length > 0
+                                        img.card-img-top(src=favorite.imageUrl[0], alt="...")
+                                    else if favorite.imageUrl && !Array.isArray(favorite.imageUrl)
+                                        img.card-img-top(src=favorite.imageUrl, alt="...")
+                                    else
+                                        p Üzgünüz, ürün bulunamadı.
+                                    .card-body
+                                        h5.card-title #{favorite.name}
+                                        p #{favorite.price}₺
+                                       
+
+                        

@@ -1,0 +1,42 @@
+nav.navbar.navbar-expand-lg.bg-body-tertiary
+  div.container-fluid
+    a.navbar-brand(href="/") 
+      img.logo(src="/img/logo.jpg", alt="logo")
+    button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation")
+      span.navbar-toggler-icon
+
+    div.collapse.navbar-collapse#navbarNavAltMarkup
+      div.navbar-nav 
+        a.nav-link.active(aria-current="page" href="/") Anasayfa
+        
+      div.navbar-nav(style="width:100%; justify-content: flex-end;")
+        if isAuthenticated
+          a.nav-link(href="/userAllOrders")  
+            i.fa-regular.fa-user(style="color: #ffaa00; font-size:1.3rem;")
+          a.nav-link(href="/shoppingCard") 
+            i.fa-solid.fa-basket-shopping(style="color: #ffaa00; font-size:1.3rem;")
+          a.nav-link(href="/logout") Çıkış Yap
+        else 
+          .loginOptions
+              a.nav-link(href="/login") Giriş Yap 
+                i.fa-solid.fa-right-to-bracket(style="color: #ffaa00; font-size:1.3rem;") 
+              a.nav-link(href="/register") Üye Ol
+      hr
+      .responsiveCategories
+        each category in categories
+          .btn-group.dropend
+            button.btn.btn-secondary(type="button")
+              | #{category.name}
+            button.btn.btn-secondary.dropdown-toggle.dropdown-toggle-split.buton(type="button", data-bs-toggle="dropdown", aria-expanded="false")
+              span.visually-hidden Toggle Dropend
+            ul.dropdown-menu
+              each subcategory in category.subcategories
+                li
+                  a.dropdown-item(href=`/products/subcategory/${subcategory}`) #{subcategory}
+
+
+
+
+
+
+    

@@ -1,0 +1,94 @@
+extends ../../layout/main-layout.pug
+block content     
+    include ../../layout/user-profile-layout.pug
+        if successMessage
+            .alert.alert-success
+                | #{successMessage}
+        block userContent
+            .container.mt-5
+                .add-address
+                    h4 Adres Bilgilerim
+                    button.add_new_address_btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop") + Yeni Adres Ekle
+                .modal.fade#staticBackdrop(data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true")
+                    .modal-dialog
+                        .modal-content
+                            .modal-header
+                                h2.modal-title.fs-5#staticBackdropLabel Yeni Adres
+                                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                            .modal-body
+                                form(action="/addAdress", method="POST") 
+                                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                    div.mb-3
+                                        label(for="country").form-label Ülke
+                                        input(type="text" name="country" aria-describedby="countryHelp" class="form-control" value="Türkiye" readonly)
+                                    div.mb-3
+                                        label(for="city").form-label Şehir *
+                                        input(type="text" name="city"  aria-describedby="cityHelp" class="form-control")      
+                                    div.mb-3
+                                        label(for="street").form-label Sokak *
+                                        input(type="text" name="street"  aria-describedby="streetHelp" class="form-control")
+                                    div.mb-3
+                                        label(for="district").form-label İlçe *
+                                        input(type="text" name="district"  aria-describedby="districtHelp" class="form-control")
+                                    div.mb-3
+                                        label(for="zipCode").form-label Posta Kodu *
+                                        input(type="text" name="zipCode"  aria-describedby="zipCodeHelp" class="form-control")
+                                    div.mb-3
+                                        label(for="identityNumber").form-label TCKNO *
+                                        input(type="text" name="identityNumber"  aria-describedby="identityNumberHelp" class="form-control")                                
+                                    div.mb-3
+                                        label(for="fullAddress").form-label Tam Adres *
+                                        input(type="text" name="fullAddress"  aria-describedby="fullAddressHelp" class="form-control")
+                                    div.mb-3
+                                        label(for="title").form-label Adres Başlığı *
+                                        input(type="text" name="title"  aria-describedby="titleHelp" class="form-control")
+                         
+                                    button(type="submit").btn.btn-primary Adreslerime Ekle
+
+                .container.mt-5.savedAddress
+                    .row 
+                        h5 Kayıtlı Adreslerim
+                        .col-12.saved_address_container
+                            each address in addresses 
+                                .card.mb-3.saved_address
+                                    .card-body
+                                        h5.card-title #{address.title}
+                                        p.card-text Şehir: #{address.city}
+                                        p.card-text Sokak: #{address.street}
+                                        p.card-text İlçe: #{address.district}
+                                        button.saved_address_btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target=`#staticBackdrop${address._id}`) Adresi Düzenle
+                                        .modal.fade(id=`staticBackdrop${address._id}`, data-bs-backdrop="static" data-bs-keyboard="false", tabindex="-1", aria-labelledby=`staticBackdropLabel${address._id}`, aria-hidden="true")
+                                            .modal-dialog
+                                                .modal-content
+                                                    .modal-header
+                                                        h1.modal-title.fs-5#staticBackdropLabel Adresi Düzenle
+                                                        button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                                                    .modal-body
+                                                        form(action=`/userUpdateAddress/${address._id}` method="POST") 
+                                                            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                                            div.mb-3
+                                                                label(for="country").form-label Ülke
+                                                                input(type="text" name="country" value=`${address.country}` aria-describedby="countryHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="city").form-label Şehir
+                                                                input(type="text" name="city" value=`${address.city}` aria-describedby="cityHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="zipCode").form-label Posta Kodu
+                                                                input(type="text" name="zipCode" value=`${address.zipCode}` aria-describedby="zipCodeHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="street").form-label Sokak
+                                                                input(type="text" name="street" value=`${address.street}` aria-describedby="streetHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="district").form-label İlçe
+                                                                input(type="text" name="district" value=`${address.district}` aria-describedby="districtHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="fullAddress").form-label Tam Adres
+                                                                input(type="text" name="fullAddress" value=`${address.fullAddress}` aria-describedby="fullAddressHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="identityNumber").form-label TCKNO
+                                                                input(type="text" name="identityNumber" value=`${address.identityNumber}` aria-describedby="identityNumberHelp" class="form-control")
+                                                            div.mb-3
+                                                                label(for="title").form-label Adres Başlığı
+                                                                input(type="text" name="title" value=`${address.title}` aria-describedby="titleHelp" class="form-control")
+                                                
+                                                            button(type="submit").btn.btn-primary Düzenle

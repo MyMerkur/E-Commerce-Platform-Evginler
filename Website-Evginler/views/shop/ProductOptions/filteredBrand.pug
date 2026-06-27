@@ -1,0 +1,30 @@
+extends ../../layout/main-layout.pug
+block content 
+    .containerBrands
+        .container
+            .row
+                each product in products
+                    .col-4
+                        a(href=`/productDetail/${product._id}`)
+                            .card
+                                if Array.isArray(product.imageUrl) && product.imageUrl.length > 0
+                                    img.card-img-top(src=product.imageUrl[0], alt="...")
+                                else if product.imageUrl && !Array.isArray(product.imageUrl)
+                                    img.card-img-top(src=product.imageUrl, alt="...")
+                                else
+                                    p Üzgünüz, ürün bulunamadı.
+                                .card-body
+                                    h5.card-title #{product.name}
+                                    each brandId in product.brands
+                                        - let productBrand = brands.find(brand => brand._id === brandId);
+                                        - if (productBrand)
+                                            span #{productBrand.name}
+                                    if product.isOutOfStock
+                                        p.card-text #{product.description} - STOKTA YOK
+                                    else
+                                        p.card-text 
+                                            | #{product.description.slice(0, 60)}  
+                                            if product.description.length > 60
+                                                | ...
+            if products.length === 0
+                p Hiçbir ürün bulunamadı.

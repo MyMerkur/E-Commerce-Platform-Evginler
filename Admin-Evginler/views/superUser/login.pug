@@ -1,0 +1,29 @@
+<!doctype html>
+html(lang="tr")
+    include ../includes/head.pug
+
+    body 
+        .container-fluid.loginContainer
+            .row 
+                .col-12.loginFrom
+                    div.login-page(style="heigth:500rem;")
+                        .homeLogin 
+                            h1.loginTitle Evginler Yönetici
+                        if errorMessage 
+                            div.alert.alert-danger.col-sm-7 #{errorMessage}
+                        form(action="/", method="POST") 
+                            input(type="hidden" name="_csrf" value=`${csrfToken}`) 
+                            div.mb-3.login_form
+                                
+                                input(type="email" name="email" placeholder="Mail" aria-describedby="emailHelp").form-control#exampleInputEmail1
+                            
+                            div.mb-3.login_form
+                                
+                                input(type="password" name="password" placeholder="Şifre" aria-describedby="emailHelp").form-control#exampleInputEmail1
+                            div.control-group.mb-5
+                                .container
+                                    .row.justify-content-center
+                                        .col-lg-6.mb-5     
+                                            button(type="submit").btn.login_btn Giriş Yap
+                                       
+    include ../includes/script.pug

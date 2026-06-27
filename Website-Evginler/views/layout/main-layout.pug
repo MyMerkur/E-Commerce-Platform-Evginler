@@ -1,0 +1,17 @@
+<!doctype html>
+html(lang="tr")
+    include ../includes/head.pug
+
+    body 
+
+        include ../includes/navbar.pug
+        
+        .container.pt-100.mb-5
+            .whatsappSupport 
+                a(href='https://wa.me/905056609973?text=Merhaba%2C%20destek%20almak%20istiyorum' aria-label="Chat on WhatsApp" target='_blank')
+                    i.fa-brands.fa-whatsapp(style="color: #63E6BE;")
+            block  content 
+
+           
+    include ../includes/footer.pug
+    include ../includes/script.pug

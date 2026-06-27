@@ -1,0 +1,17 @@
+extends ../../layout/main-layout.pug
+block content 
+    .paymentSuccessContainer
+        .row.justify-content-center
+            .col-md-5
+                .message-box._success._failed
+                    i.fa.fa-times-circle(aria-hidden="true")
+                    h2 Ödemeniz Tamamlanamadı !
+                    .errorMessage
+                        p Hata:
+                        if errorMessage 
+                            p #{errorMessage}!
+                    p Lütfen bilgilerinizin doğruluğunu kontrol edip tekrar deneyin.     
+                    .returnPaymentPage
+                        button(type="submit").getPayment
+                            a(href="/payment") Ödeme Sayfası
+                        

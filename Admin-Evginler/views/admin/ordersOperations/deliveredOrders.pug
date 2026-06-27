@@ -1,0 +1,59 @@
+extends ../../layout/main_layout.pug
+
+block content
+    .container.deliveredOrdersPage
+        h1 Teslim Edilen Siparişler
+
+        
+
+        if orders.length > 0
+            form(action="/searchDeliveredOrders", method="GET" class="mb-3")
+                .form-group.searchOrdersContainer
+                    
+                    input#searchInput.form-control.searchOrders(type="text" name="searchQuery" placeholder="İsim veya Sipariş Numarası girin")
+            each order in orders
+                table.table.table-striped.mb-5.mt-5(style="border:2px solid black;")
+                    thead
+                        tr
+                            th(colspan=5) Sipariş Numarası: #{order.orderId}
+                    tbody
+                        each product in order.products
+                            tr
+                                td(colspan=2) Ürün Adı: #{product.name}
+                                td
+                                    img(src=`${product.imageUrl}`, alt="", style="width:100px; height:100px;")
+                                td Fiyat: #{product.price} TL
+                                td Adet: #{product.quantity}
+                    thead
+                        tr
+                            th(colspan=5) Alıcı Bilgileri:
+                    tbody
+                        tr
+                            td(colspan=2) Kullanıcı Adı:
+                            td(colspan=3) #{order.userId.name}
+                        tr
+                            td(colspan=2) Soyadı:
+                            td(colspan=3) #{order.userId.surname}
+                        tr
+                            td(colspan=2) Email:
+                            td(colspan=3) #{order.userId.email}
+                        tr
+                            td(colspan=2) Telefon:
+                            td(colspan=3) #{order.userId.phone}
+                        tr
+                            td(colspan=2) Adres:
+                            td(colspan=3)
+                                if order.address
+                                    | #{order.address.fullAddress}
+                                else
+                                    | Adres bilgisi bulunamadı.
+                        tr
+                            td(colspan=2) Kargo Takip Numarası:
+                            td(colspan=3)
+                                if order.trackingNumber
+                                    | #{order.trackingNumber}
+                                else
+                                    | Kargo takip numarası bulunamadı.
+        else 
+            .container.orderMessage 
+                img(src='/img/orderMessage.png', alt="")

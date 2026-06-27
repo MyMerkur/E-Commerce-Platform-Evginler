@@ -1,0 +1,38 @@
+.container.userProfileLayout
+    .row.mt-5 
+        .col-lg-3.col-sm-12
+            .card.mb-3(style='width: 18rem;')
+                .card-body
+                    span.card-title #{user.name} #{user.surname}
+            .card.mb-3(style='width: 18rem;')
+                .card-body.userProfileLayout
+                    | Favori Ürünlerim 
+                    hr
+                    span 
+                        a(href="/favoriteProducts") Favori Ürünlerim
+                        br
+                    
+            .card.mb-3(style='width: 18rem;')
+                .card-body.userProfileLayout
+                    | Siparişlerim 
+                    hr
+                    span 
+                        a(href="/userAllOrders") Tüm Siparişlerim 
+                        br
+                    span
+                        a(href="/userDeliveredOrders") Teslim Edilen Siparişlerim 
+                        br
+                    span
+                        a(href="/returnedOrders") İade Edilen Siparişlerim
+            .card.mb-3(style='width: 18rem;')
+                .card-body.userProfileLayout
+                    | Hesap 
+                    hr
+                    span 
+                        a(href="/userInformation") Kullanıcı Bilgilerim
+                        br
+                    span 
+                        a(href="/userAdressInfo") Adres Bilgilerim
+                        br
+        .col-lg-9.col-sm-12
+            block userContent

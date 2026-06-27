@@ -1,0 +1,29 @@
+extends ../../layout/main-layout.pug
+
+block content 
+    div.login-page.mb-5
+        h1.home-title.text-center Giriş Yap
+    if errorMessage 
+        div.alert.alert-danger.col-sm-7 #{errorMessage}
+    .loginFormContainer
+        .loginForm
+            form(action="/login", method="POST") 
+                input(type="hidden" name="_csrf" value=`${csrfToken}`) 
+                div.mb-3
+                    label(for="exampleInputEmail1").form-label Email
+                    input(type="email" name="email" aria-describedby="emailHelp" placeholder="exemple.exemple@gmail.com").form-control#exampleInputEmail1
+                
+                div.mb-3
+                    label(for="password").form-label Şifre
+                    input(type="password" name="password" aria-describedby="emailHelp" placeholder="*********").form-control#exampleInputEmail1
+                div.control-group.mb-5
+                    .container.loginBtnContainer
+                        .row 
+                            .col-6.loginBtns 
+                                button(type="submit").btn.loginBtn Giriş Yap
+                                a.loginBtn.text-center(href="/register" class="btn") Üye Ol
+                            .col-6
+                                a(href="/reset-password") Şifremi Unuttum
+                        
+            
+                        

@@ -1,0 +1,27 @@
+extends ../../layout/main_layout.pug
+
+block content
+    
+    
+    .container.mt-5.p-5
+        h1.text-center Kategori Ekleme 
+        form(action="/addCategory", method="POST") 
+            input(type="hidden"  name="_csrf" value=`${csrfToken}`)
+            
+            .form-group.row 
+                label(for='name').col-sm-2.col-form-label Kategori Adı:
+                .col-sm-10 
+                    input.form-control#name(type="text" placeholder="Örn: Mutfak,Çeyiz" name='name')
+
+            .form-group.row 
+                label(for='subcategories').col-sm-2.col-form-label Alt Kategoriler:
+                .col-sm-10#subcategoriesContainer
+                    input.form-control(name='subcategories' type='text' placeholder='Örn: Kahve Makinesi')
+            
+            .form-group.row
+                .col-sm-10.offset-sm-2
+                    button.btn.btn-secondary(type='button' id='addSubcategoryButton') + 
+
+            .form-group.row 
+            .col-sm-10.offset-sm-2 
+                    input(type="submit" value='Kaydet').btn.btn-primary

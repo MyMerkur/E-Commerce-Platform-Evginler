@@ -1,0 +1,20 @@
+extends ../../layout/main-layout.pug
+block content   
+    form(action="/selectAddressForOrder" method="POST")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .saved_address_container
+            .row 
+                each address in addresses
+                    
+                        .col-sm-12
+                            .form-check.saved_address
+                                input.form-check-input(type="radio" name="selectedAddress" id=`address${address._id}` value=`${address._id}`)
+                                label.form-check-label(for=`address${address._id}`)
+                                .card.mb-3
+                                    .card-body
+                                        h5 #{address.title}
+                                        p Şehir: #{address.city}
+                                        p Sokak: #{address.street}
+                                        p İlçe: #{address.district}
+                                        p Adres: #{address.fullAddress}
+        button(type="submit").btn.saved_address_btn Adresi Seç

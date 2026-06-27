@@ -1,0 +1,143 @@
+extends ../../layout/main_layout.pug
+
+block content 
+    .container.mt-5.p-5
+        form(action="/addProduct", method="POST")
+            input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            
+            // Hata mesajları için alan
+            if errors && errors.length > 0
+                .alert.alert-danger.mb-4
+                    ul
+                        each error in errors
+                            li= error.msg
+
+            .form-group.row
+                label(for="name").col-sm-2.col-form-label Ürün İsmi
+                .col-sm-10
+                    input.form-control#productName(type="text" name="name" required)
+                    // İsim alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'name'
+                                small.text-danger #{error.msg}
+                                
+            .form-group.row
+                label(for="price").col-sm-2.col-form-label Ürün Fiyatı
+                .col-sm-10
+                    input.form-control#price(type="text" name="price" required)
+                    // Fiyat alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'price'
+                                small.text-danger #{error.msg}
+            
+            .form-group.row
+                label(for="discount").col-sm-2.col-form-label İndirim Oranı
+                .col-sm-10
+                    input.form-control#discount(type="text" name="discount" placeholder="% Bir Değer Giriniz")
+                    // İndirim alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'discount'
+                                small.text-danger #{error.msg}
+            
+            .form-group.row   
+                label(for='size').col-sm-2.col-form-label Ürün Boyutu(Zorunlu Değil)
+                .col-sm-10 
+                    input.form-control#size(type="text" name="size")
+            
+            .form-group.row 
+                label(for='categoryId').col-sm-2.col-form-label Kategori 
+                .col-sm-10 
+                    select.form-control(name="categoryId" required)
+                        option(value="-1") Kategori Seç
+                        each category in categories 
+                            option(value=`${category.id}`) #{category.name}   
+                    // Kategori alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'categoryId'
+                                small.text-danger #{error.msg}
+            
+            .form-group.row 
+                label(for='subcategoryId').col-sm-2.col-form-label Alt Kategori 
+                .col-sm-10 
+                    select.form-control(name="subcategoryId" required)
+                        option(value="-1") Alt Kategori Seç
+                        each category in categories 
+                            if category.subcategories.length > 0
+                                each subcategory in category.subcategories
+                                    option(value=`${subcategory}`) #{subcategory}
+                    // Alt kategori alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'subcategoryId'
+                                small.text-danger #{error.msg}
+
+            .form-group.row 
+                label(for='brandId').col-sm-2.col-form-label Marka 
+                .col-sm-10 
+                    select.form-control(name="brandId" required)
+                        option(value="-1") Marka Seç
+                        each brand in brands 
+                            option(value=`${brand.id}`) #{brand.name}
+                    // Marka alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'brandId'
+                                small.text-danger #{error.msg}
+            
+            .form-group.row   
+                label(for='stock').col-sm-2.col-form-label Ürün Stok Durumu
+                .col-sm-10 
+                    input.form-control#stock(type="text" name="stock" required)
+                    // Stok alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'stock'
+                                small.text-danger #{error.msg}
+
+            .form-group.row 
+                label(for="imageUrl1").col-sm-2.col-form-label Ürün Görseli 1
+                .col-sm-10 
+                    input.form-control-file#imageUrl1(type="text" name="imageUrl1" placeholder="Görsel URL'yi girin" required)
+                    // Görsel 1 alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'imageUrl1'
+                                small.text-danger #{error.msg}
+
+            .form-group.row 
+                label(for="imageUrl2").col-sm-2.col-form-label Ürün Görseli 2
+                .col-sm-10 
+                    input.form-control-file#imageUrl2(type="text" name="imageUrl2" placeholder="Görsel URL'yi girin")
+                    // Görsel 2 alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'imageUrl2'
+                                small.text-danger #{error.msg}
+
+            .form-group.row 
+                label(for="imageUrl3").col-sm-2.col-form-label Ürün Görseli 3
+                .col-sm-10 
+                    input.form-control-file#imageUrl3(type="text" name="imageUrl3" placeholder="Görsel URL'yi girin")
+                    // Görsel 3 alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'imageUrl3'
+                                small.text-danger #{error.msg}
+
+            .form-group.row   
+                label(for='description').col-sm-2.col-form-label Ürün Açıklaması
+                .col-sm-10 
+                    input.form-control#description(type="text" name="description")
+                    // Açıklama alanı hatası
+                    if errors && errors.length > 0
+                        each error in errors
+                            if error.param === 'description'
+                                small.text-danger #{error.msg}
+
+            .form-group.row 
+                .col-sm-10.offset-sm-2 
+                    input(type="submit" value="Ürünü Ekle" class="btn btn-primary")  

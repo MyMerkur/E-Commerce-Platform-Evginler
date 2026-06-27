@@ -1,0 +1,602 @@
+a{
+  text-decoration: none;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+h1{
+  font-family: 'Times New Roman', Times, serif;
+}
+p{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size: .8rem;
+}
+h5{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+}
+span{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.logo{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.text-white a{
+  color: white;
+  transition: all .3s ease;
+}
+.text-white a:hover{
+  color: rgb(227, 115, 94);
+}
+.searchBar{
+    width:50%;
+    border: 0;
+    outline: none;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: rgb(237, 236, 236);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.searchBar:focus {
+  border: 2px solid  rgb(227, 115, 94);
+  background-color: white; 
+}
+.btn-secondary{
+  border: 0;
+  width: 5%;
+  background-color: transparent;
+}
+.fa-solid.fa-magnifying-glass{
+  font-size: 1.4rem;
+}
+.category{
+  list-style: none;
+  width: 100%;
+}
+.category li{
+  display: flex;
+  justify-content: space-evenly;
+}
+.category li a{
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: black;
+}
+.category li a:hover{
+  color: rgb(165, 41, 41);
+}
+/*Payment Success*/
+._failed{ border-bottom: solid 4px red !important; }
+._failed i{  color:red !important;  }
+
+._success {
+    box-shadow: 0 15px 25px #00000019;
+    padding: 45px;
+    width: 100%;
+    text-align: center;
+    margin: 40px auto;
+    border-bottom: solid 4px #28a745;
+}
+
+._success i {
+    font-size: 55px;
+    color: #28a745;
+}
+
+._success h2 {
+    margin-bottom: 12px;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 10px;
+}
+
+._success p {
+    margin-bottom: 0px;
+    font-size: 18px;
+    color: #495057;
+    font-weight: 500;
+}
+
+/*Shoppnig Card*/
+.shoppingCard{
+  border: 1px solid gray;
+  border-radius: 9px;
+  height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 1px 2px 6px black;
+  margin-top: 3rem;
+}
+.shoppingCard .emptyBasket{
+  display: flex;
+  width: 40%;
+  justify-content: space-evenly;
+}
+.shoppingCard .emptyBasket p{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.shoppingCard .fa-cart-shopping{
+  font-size: 2.6rem;
+}
+.shoppingCard .startShopping{
+  width: 30%;
+  height: 50%;
+  border-radius: 12px;
+  border: 0;
+  background-color: rgb(227, 115, 94);
+}
+.startShopping a{
+  text-decoration: none;
+  color: white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+/*Product Cart*/
+.containerBrands .card-body{
+  text-align: center;
+}
+.containerBrands .row .col-4{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+.containerBrands .row .col-4 a{
+  text-decoration: none;
+  color: black;
+}
+.containerBrands .row .col-4 h5{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.containerBrands .row .col-4 p{
+  font-size: small;
+}
+.containerBrands .row .col-4 a:hover h5{
+  color: rgb(227, 115, 94);
+}
+.containerBrands .row .col-4 a:hover .card{
+  box-shadow: 1px 1px 8px black ;
+ 
+}
+.containerBrands .card{
+  height: 350px;
+  width: 18rem;
+  margin-bottom: 10px;
+  border: 0;
+  transition: box-shadow 0.3s ;
+}
+.containerBrands .card img{
+  height: 250px;
+  border-radius: 4px;
+}
+/*Shopping Card*/
+.shoppingCardTotalPrice{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 1px solid #484848; */
+  font-family: Poppins,sans-serif;
+  border-color: #e8e8e8!important;
+  height: 350px;
+  justify-content: space-evenly;
+}
+.subTotal , .cargoPrice , .totalPrice{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+td{
+  --bs-table-bg-type: var(0);
+  --bs-table-striped-bg:transparent
+}
+.shoppingCardP-Detail button{
+  border: 0;
+  background-color: transparent;
+}
+.fa-solid.fa-xmark{
+  color: #e32400;
+  font-size: 1.3rem;
+}
+.paymentForm{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+}
+.getPayment{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.5rem;
+  font-family: Times New Roman;
+  width: 50%;
+  height: 50px;
+  border: 0;
+  background-color: rgb(25, 162, 25);
+  transition: background-color,0.6s;
+  border-radius: 3px;
+}
+.getPayment:hover{
+  background-color:chocolate ;
+  width: 60%;
+}
+.paymentForm .fas.fa-chevron-right{
+  font-size: 1.5rem;
+}
+/*Payment Page*/
+.returnShoppingCard a{
+  text-decoration: none;
+  font-size: 1rem;
+  color: black;
+}
+.returnShoppingCard i{
+  margin-right: 10px;
+}
+.paymentProductDetails{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 9px;
+}
+.totalPriceCalculate{
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 100%;
+
+}
+.paymentProductDetails .payment-item img{
+  border-radius: 9px;
+}
+.paymentSelectedAddress{
+  width: 100%;
+}
+/*Brands Logo*/
+.brands.m-5{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  list-style: none;
+}
+.brands.m-5 li{
+    width: 9%;
+}
+.brandsLogo{
+  width: 100%;
+}
+.errorMessage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.errorMessage p{
+  font-size: 1.3rem;
+  font-weight: bolder;
+}
+.returnPaymentPage{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+.returnPaymentPage a{
+  text-decoration: none;
+  color: white;
+}
+
+.name {
+  text-transform:capitalize;
+}
+.surname{
+  text-transform: capitalize;
+}
+.userProfileLayout a{
+  color: black;
+  transition: all .2s ease;
+}
+.userProfileLayout a:hover{
+  color:rgba(255, 102, 0, 0.763);
+  text-decoration: underline;
+}
+.userOrders{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 12px;
+  margin-bottom: 3rem;
+}
+.allOrdersThead tr th{
+  font-size: 10px;
+}
+.allOrdersTbody tr td{
+  font-size: 12px;
+  width: 20px;
+}
+.tableContainer{
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 3rem;
+}
+.userOrders table tr{
+  border: none;
+
+}
+.userOrders table.table-striped tr{
+  border: none;
+}
+.userOrders table th, table td{
+  border: none;
+
+}
+
+
+
+
+.userInfo{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 12px;
+}
+.userInfoContainer{
+  display: flex;
+  justify-content: center;
+}
+.userInfoFormContainer{
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 12px;
+  width: 100%;
+  padding: 15px;
+  margin-top: 3rem;
+}
+
+
+
+.add-address{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid rgb(225, 222, 222);
+  border-radius: 12px;
+}
+.add_new_address_btn{
+  background-color: rgba(255, 102, 0, 0.763);
+}
+.savedAddress{
+  border: 1px solid  rgb(225, 222, 222);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.saved_address_container{
+  display: flex;
+  
+}
+.saved_address{
+  width: 30%;
+  margin-left:10px ;
+}
+.saved_address_btn{
+  border: 1px solid rgb(225, 222, 222) ;
+  color: rgba(255, 102, 0, 0.763);
+  transition: all .5s ease;
+}
+.saved_address_btn:hover{
+  border: 1px solid rgb(225, 222, 222) ;
+  font-size: 1.2rem;
+  color: rgba(255, 102, 0, 0.763);
+}
+
+.paymentContract p {
+  font-size: small;
+}
+.paymentContract ul {
+  list-style: none;
+}
+.paymentContract ul li{
+  font-size: small;
+}
+.paymentContract h3{
+  font-size: medium;
+}
+.paymentLogo{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.favorite{
+  color: #e32400;
+}
+
+.category {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.category .dropdown a {
+  font-size: medium;
+  position: relative;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 100%; /* Açılan menünün kategori bağlantısının altında konumlanması için */
+  left: 0; /* Kategori bağlantısının tam solunda olması için */
+  z-index: 1000; /* Diğer içeriklerin üzerinde olması için */
+  background-color: white; /* Opsiyonel: Açılan menü arkaplan rengi */
+  border: 1px solid #ddd; /* Opsiyonel: Açılan menü kenarlık */
+}
+
+.dropdown:hover .dropdown-menu {
+  display: flex; /* display: block yerine display: flex kullanılması */
+  flex-direction: column; /* Açılan menüyü sütun şeklinde düzenlemek için */
+}
+.dropdown:hover .dropdown-menu li{
+  display: flex;
+  flex-direction: column;
+}
+
+.loginOptions{
+  display: flex;
+  flex-direction: column;
+}
+.loginFormContainer{
+  display: flex;
+  justify-content: center;
+}
+.loginForm{
+  width: 50%;
+  box-shadow: 0px 0px 10px rgb(144, 130, 119);
+  border-radius: 9px;
+}
+.loginForm form{
+
+  padding: 30px;
+}
+.loginBtnContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loginBtnContainer .row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.loginBtns{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.loginBtnContainer .row .col-6{
+ width: 100%;
+}
+.loginBtnContainer .row :nth-child(2) {
+  text-align: end;
+}
+.loginBtnContainer .row :nth-child(2) :nth-child(1){
+  text-align: end;
+  color: #495057;
+  transition: .3s all ease;
+  padding: 5px;
+}
+
+.loginBtnContainer .row :nth-child(2) :nth-child(1):hover{
+  text-align: end;
+  color:rgba(255, 102, 0, 0.763);
+}
+.loginBtn{
+  width: 40%;
+  text-align: center;
+  border: 1px solid rgb(225, 222, 222) ;
+  color: rgba(255, 102, 0, 0.763);
+  transition: all .5s ease;
+}
+.home-title{
+  font-size: 2rem;
+  
+}
+.whatsappSupport{
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+.whatsappSupport i{
+  position: fixed;
+  top: 500px;
+  z-index: 9999;
+  font-size: 4rem;
+}
+
+nav .responsiveCategories{
+  display: none;
+}
+
+
+@media screen and (max-width: 576px) {
+  .category{
+    padding: 0;
+  }
+  .dropdown a{
+    font-size: .5rem !important;
+  }
+  .searchBar{
+    width: 100% !important;
+    font-size: .7rem;
+  }
+  .searchBarContainer form{
+    padding: 30px;
+    width: 100%;
+    margin: 0 !important;
+  }
+  .searchBarContainer form button{
+    color: #495057;
+  }
+  .brands{
+    padding: 0 !important;
+    margin:2rem !important
+  }
+  .homeProducts .col-lg-4.col-sm-6{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginForm{
+    width: 100%;
+  }
+  .saved_address{
+    width: 100%;
+  }
+  .basketInfo{
+    font-size: .5rem;
+    margin-left: 10px;
+  }
+  .goShopping{
+    font-size: .5rem;
+  }
+  .table>:not(caption)>*>* {
+    padding: 0;
+  }
+  .tableContainer{
+    padding: 0;
+  }
+  .whatsappSupport i{
+    font-size: 1rem;
+  }
+  .categoriesContainer{
+    display: none;
+  }
+  nav .responsiveCategories{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+  nav .category{
+    display: block;
+  }
+  .responsiveCategories .btn.btn-secondary{
+    color: black;
+  }
+}

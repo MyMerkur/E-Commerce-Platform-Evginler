@@ -1,0 +1,52 @@
+extends ../../layout/main-layout
+
+block content
+    .container.mt-5
+        .container
+            .row
+                .col-12
+                    ul.category
+                        each category in categories
+                            li.dropdown
+                                a(href="#") #{category.name}
+                                ul.dropdown-menu
+                                    li
+                                        each subcategory in category.subcategories
+                                            a(href=`/products/subcategory/${subcategory}`) #{subcategory}
+
+        .container
+            .row
+                .col-12
+                    ul.brands.m-5
+                        each brand in brands
+                            li
+                                a(href=`/products/${brand._id}`)
+                                    img(src=`${brand.imageUrl}`, alt="").brandsLogo
+        h1 #{title}
+        .productsWrapper.mb-5.mt-5
+            .row
+                each product in products
+                    .col-4
+                        a(href=`/productDetail/${product._id}`)
+                            .card
+                                if Array.isArray(product.imageUrl) && product.imageUrl.length > 0
+                                    img.card-img-top(src=product.imageUrl[0], alt="...")
+                                else if product.imageUrl && !Array.isArray(product.imageUrl)
+                                    img.card-img-top(src=product.imageUrl, alt="...")
+                                else
+                                    p Üzgünüz, ürün bulunamadı.
+                                .card-body
+                                    h5.card-title #{product.name}
+                                    - let productBrands = [];
+                                    each brandId in product.brands
+                                        - let productBrand = brands.find(brand => brand._id === brandId);
+                                        - if (productBrand) productBrands.push(productBrand);
+                                    each brand in productBrands
+                                        span #{brand.name}
+                                    if product.isOutOfStock
+                                        p.card-text #{product.description} - STOKTA YOK
+                                    else
+                                        p.card-text
+                                            | #{product.description.slice(0, 60)}
+                                            if product.description.length > 60
+                                                | ...

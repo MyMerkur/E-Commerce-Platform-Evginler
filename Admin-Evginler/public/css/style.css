@@ -1,0 +1,166 @@
+.indexOrdersInfo {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+  box-shadow: 0px 0px 15px black;
+  border-radius: 9px;
+}
+
+.indexOrdersInfo a {
+  text-decoration: none;
+  color: rgba(255, 102, 0, 0.763);
+}
+
+@keyframes growProgressBar {
+
+  0%,
+  33% {
+    --pgPercentage: 0;
+  }
+
+  100% {
+    --pgPercentage: var(--value);
+  }
+}
+
+@property --pgPercentage {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+div[role="progressBar"] {
+  --size: 12rem;
+  --fg: rgb(233, 138, 22);
+  --bg: #cbcbcb;
+  --pgPercentage: var(--value);
+  animation: growProgressBar 3s 1 forwards;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+    conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) 0);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: calc(var(--size) / 5);
+  color: var(--fg);
+}
+
+div[role="progressBar"]::before {
+  counter-reset: percentage var(--value);
+  content: counter(percentage) ' adet';
+}
+
+.financial {
+  box-shadow: 0px 0px 10px black;
+  border-radius: 9px;
+  padding: 20px;
+}
+
+.incomingOrdersContainer,
+.deliveredOrdersContainer,
+.returnedOrdersContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orderInfo ul {
+  list-style: none;
+}
+
+.orderInfo ul li {
+  font-size: smaller;
+}
+
+.login_btn {
+  background-color: rgba(255, 102, 0, 0.763);
+}
+
+.login_btn:hover {
+  background-color: rgba(255, 102, 0, 0.763);
+}
+
+.loginTitle {
+  color: rgba(255, 102, 0, 0.763);
+  text-shadow: 0px 3px 6px black;
+}
+
+.login_form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginFrom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://img.freepik.com/premium-photo/stylish-wooden-table-top-blurred-kitchen-background-ideal-product-displays_111797-2259.jpg');
+  background-size: cover;
+  /* Görselin tam olarak alanı kaplamasını sağlar */
+  background-position: center;
+  /* Görselin merkezlenmesini sağlar */
+  background-repeat: no-repeat;
+  /* Görselin tekrar etmesini engeller */
+  height: 100vh;
+}
+
+.layout {
+  /* height: 100vh; */
+}
+.orderMessage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.orderMessage img{
+  width: 100%;
+}
+.searchOrdersContainer{
+  display: flex;
+}
+.searchOrders{
+  
+}
+.home{
+  margin-top: 6rem !important;
+}
+@media screen and (max-width: 576px) {
+    .indexOrdersInfo{
+      display: flex;
+      flex-direction: column;
+    }
+    .indexProduct{
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .indexProduct .card{
+      margin: 20px;
+    }
+    .home{
+      margin-top: 6rem !important;
+    }
+    .confirmedOrdersPage{
+      margin-top: 6rem !important;
+    }
+    .deliveredOrdersPage{
+      margin-top: 6rem !important;
+    }
+    .incomingOrdesPage{
+      margin-top: 6rem !important;
+    }
+    .returnedOrdersPage{
+      margin-top: 6rem !important;
+    }
+}

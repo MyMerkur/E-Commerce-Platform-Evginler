@@ -1,0 +1,36 @@
+extends ../../layout/main-layout.pug
+block content 
+    include ../../layout/user-profile-layout.pug
+        if successMessage
+            .alert.alert-success
+                | #{successMessage}
+        if errorMessage
+            .alert.alert-danger
+                | #{errorMessage}
+        block userContent  
+            .container.mt-5
+                .userInfo
+                    h4 Üyelik Bilgilerim
+                .container.userInfoContainer
+                    .row.justify-content-center.userInfoFormContainer
+                        .col-12
+                            
+                            form(action="/userUpdateInfo", method="POST") 
+                                input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                
+                                div.mb-3
+                                    label(for="name").form-label Ad
+                                    input(type="name" name="name" value=`${user.name}` aria-describedby="emailHelp").form-control#exampleInputEmail1
+                                div.mb-3
+                                    label(for="surname").form-label Soyad
+                                    input(type="surname" name="surname" value=`${user.surname}` aria-describedby="emailHelp").form-control#exampleInputEmail1
+
+                                div.mb-3
+                                    label(for="exampleInputEmail1").form-label E-Mail 
+                                    input(type="email" name="email" value=`${user.email}` aria-describedby="emailHelp").form-control#exampleInputEmail1
+                            
+                                div.mb-3
+                                    label(for="phone").form-label Telefon Numarası
+                                    input(type="tel" name="phone" value=`${user.phone}` aria-describedby="emailHelp").form-control#exampleInputEmail1
+                                
+                                button.saved_address_btn.mt-5(type="submit").btn Bilgileri Güncelle

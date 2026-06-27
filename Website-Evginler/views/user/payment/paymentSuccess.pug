@@ -1,0 +1,12 @@
+extends ../../layout/main-layout.pug
+block content 
+    .paymentSuccessContainer
+        .row.justify-content-center
+            .col-md-5
+                .message-box._success
+                    i.fa.fa-check-circle(aria-hidden="true")
+                    h2 Ödemeniz Başarıyla Alındı
+                    p 
+                        | Siparişlerinizi profiliniz üzerinden kontrol edebilirsiz.
+                        br
+                        a(href="/userAllOrders") Tüm Siparişlerim

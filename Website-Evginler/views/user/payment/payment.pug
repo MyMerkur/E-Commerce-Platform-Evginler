@@ -1,0 +1,86 @@
+extends ../../layout/main-layout.pug
+block content 
+    h1 Siparişi Tamamla
+    if errorMessage
+        .alert.alert-danger 
+            |#{errorMessage}
+    .container 
+        .row 
+            .col-lg-8.col-sm-12
+                .returnShoppingCard
+                    i.fa-solid.fa-circle-chevron-left
+                    a(href="/shoppingCard") Sepete Geri Dön 
+                    hr
+                    i.fa-solid.fa-circle-chevron-left
+                    a(href="/selectAddress") Adres Seçimine Geri Dön
+                    hr
+                .paymentInfo 
+                    i.fa-solid.fa-circle-chevron-right
+                    span Ödeme Bilgileri
+                    hr
+                form(action="/processPayment", method="POST")
+                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                    .form-group
+                        label(for="cardHolderName") Kart Sahibi Adı:
+                        input#cardHolderName.form-control(type="text", name="cardHolderName", required)
+                    .form-group
+                        label(for="cardNumber") Kart Numarası:
+                        input#cardNumber.form-control(type="text", name="cardNumber", required)
+                    .form-group
+                        label(for="expireMonth") Son Kullanma Ayı:
+                        input#expireMonth.form-control(type="text", name="expireMonth", required)
+                    .form-group
+                        label(for="expireYear") Son Kullanma Yılı:
+                        input#expireYear.form-control(type="text", name="expireYear", required)
+                    .form-group
+                        label(for="cvc") CVC:
+                        input#cvc.form-control(type="text", name="cvc", required)
+                    .form-group
+                        label(for="installment") Taksit Seçenekleri:
+                        select#installment.form-control(name="installment", required)
+                            option(value="1") Tek Çekim
+                            option(value="2") 2 Taksit
+                            option(value="3") 3 Taksit
+                    .form-group.mt-4
+                        input.form-check-input(type="checkbox" name="salesContract" id="salesContract" required) 
+                        label.form-check-label(for="salesContract") Ön bilgilendirme formunu ve mesafeli satış sözleşmesini kabul ediyorum.
+                     
+                    button.btn.saved_address_btn#paymentButton.mt-3(type="submit") #{totalPrice}₺ Tutarındaki Ödemeyi Tamamla
+            .col-lg-4.col-sm-12.paymentProductDetails
+                h5 Sipariş Detayları
+                table.table.table-striped
+                    thead.allOrdersThead
+                        tr
+                            th Ürün Adı
+                            th Ürün Görseli
+                            th Adet
+                            th Fiyat
+                    tbody.allOrdersTbody
+                        each item in cartItems
+                            tr.payment-item
+                                td #{item.name}
+                                td(style="width:30%;")
+                                    img(src=`${item.imageUrl[0]}`, alt="" style="width:40%;")
+                                td #{item.quantity} adet
+                                td #{item.price * item.quantity} ₺
+                .totalPriceCalculate
+                    p Kargo Ücreti: #{shippingFee}₺
+                    p Toplam Tutar: #{totalPrice}₺
+                
+                h5 Teslimat Adresi Bilgileri
+                .saved_address_container
+                    .paymentSelectedAddress
+                        .card.mb-3
+                            .card-body
+                                h5 #{selectedAddress.title}
+                                p Şehir: #{selectedAddress.city}
+                                p Sokak: #{selectedAddress.street}
+                                p İlçe: #{selectedAddress.district}
+                                p Adres: #{selectedAddress.fullAddress}
+            
+
+                
+
+                 
+                    
+            

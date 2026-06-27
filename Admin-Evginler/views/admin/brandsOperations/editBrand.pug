@@ -1,0 +1,24 @@
+extends ../../layout/main_layout.pug
+
+block content 
+    .container.mt-5.p-5
+
+        form(action="/editBrand", method="POST") 
+            input(type="hidden" name='_csrf' value=`${csrfToken}`)
+            input(type="hidden" name='id' value=`${brand._id}`)
+
+            .form-group.row 
+                label(form='name').col-sm-2.col-form-label Marka Adı
+                .col-sm-10 
+                    input.form-control(type='text' name='name' value=`${brand.name}`)
+            
+            .form-group.row 
+                label(for="imageUrl").col-sm-2.col-form-label Marka Görseli 
+                .col-sm-10 
+                    img(src=`${brand.imageUrl}` width="100px;" alt="")
+                    br
+                    input.form-control-file#imageUrl(type="text" name="imageUrl" accept="image/*" value=`${brand.imageUrl}`)
+
+            .form-group.row 
+                .col-sm-10.offset-sm-2  
+                    input(type="submit" value='Kaydet').btn.btn-primary

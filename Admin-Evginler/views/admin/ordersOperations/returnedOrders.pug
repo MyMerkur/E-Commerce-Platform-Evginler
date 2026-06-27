@@ -1,0 +1,53 @@
+extends ../../layout/main_layout.pug
+
+block content
+    .container.returnedOrdersPage
+        h1 İade Edilen Siparişler
+
+        
+
+        if orders.length > 0
+            form(action="/searchReturnedOrders", method="GET" class="mb-3")
+                .form-group.searchOrdersContainer
+                    input#searchInput.form-control.searchOrders(type="text" name="searchQuery" placeholder="İsim veya Sipariş Numarası girin")
+            each order in orders
+                table.table.table-striped.mb-5.mt-5(style="border:2px solid black;")
+                    thead
+                        tr
+                            th(colspan=5) Sipariş Numarası: #{order.orderId}
+                    tbody
+                        each product in order.products
+                            tr
+                                td(colspan=2) Ürün Adı: #{product.name}
+                                td
+                                    img(src=`${product.imageUrl}`, alt="", style="width:100px; height:100px;")
+                                td Fiyat: #{product.price} TL
+                                td Adet: #{product.quantity}
+                                tr 
+                                    td(colspan=5) 
+                                        | Alıcı Bilgileri:
+                                        br
+                                        | Kullanıcı Adı: #{order.userId.name}
+                                        br
+                                        | Soyadı: #{order.userId.surname}
+                                        br
+                                        | Email: #{order.userId.email}
+                                        br
+                                        | Telefon: #{order.userId.phone}
+                                        br
+                                        | Adres: 
+                                        if order.address
+                                            | #{order.address.fullAddress}
+                                        else
+                                            | Adres bilgisi bulunamadı.
+                                        br
+                                        | Kargo Takip Numarası:
+                                        if order.trackingNumber
+                                            | #{order.trackingNumber}
+                                        else
+                                            | Kargo takip numarası bulunamadı.
+                                        br 
+                                        | İade Nedeni: #{product.returnReason}
+        else 
+            .container.orderMessage 
+                img(src='/img/orderMessage.png', alt="")

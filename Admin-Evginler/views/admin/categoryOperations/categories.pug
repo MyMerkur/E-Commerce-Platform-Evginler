@@ -1,0 +1,33 @@
+extends ../../layout/main_layout.pug
+
+block content 
+    .container.mt-5.p-5
+        if action !== 'undefined' && action === 'create'
+            .alert.alert-success 
+                | Yeni Kategori Oluşturuldu
+        if action !== 'undefined' && action === 'delete'
+            .alert.alert-danger 
+                | Kategori Silindi
+        if action !== 'undefined' && action === 'edit'
+            .alert.alert-success 
+                | Kategori Yeniden Düzenlendi
+
+        if categories.length > 0 
+            table.table.table-bordered 
+                thead   
+                    tr  
+                        th Kategoriler 
+                        th(style="width:133px;")
+
+                tbody 
+                    each category in categories 
+                        tr 
+                            td #{category.name}
+                            td.d-flex
+                                a.btn.btn-primary.btn-sm.mr-2(href=`/editCategory/${category._id}`) Düzenle 
+
+                                form(action="/deleteCategory", method="POST")
+                                    input(type="hidden" name="_csrf" value=`${csrfToken}`)
+                                    input(type="hidden" name="categoryid" value=`${category._id}`)
+                                    button(type='submit').btn.btn-danger.btn-sm Sil  
+    
