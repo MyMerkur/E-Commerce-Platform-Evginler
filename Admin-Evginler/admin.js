@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
-const port = 3030;
+const port = process.env.PORT || 3030;
 const mongoose = require('mongoose');
 const session = require('express-session'); // express-session modülü burada çağrılmalı
 const MongoDBStore = require('connect-mongodb-session')(session);
 require('dotenv').config();
+app.set('trust proxy', 1);
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser'); 
 const path = require('path');
@@ -179,10 +180,10 @@ app.use((err, req, res, next) => {
 });
 
 mongoose.connect(process.env.MONGODB_CONNECT)
-    .then(
-        console.log('MongoDB Bağlantısı Başarılı'),
+    .then(() => {
+        console.log('MongoDB Bağlantısı Başarılı');
         app.listen(port,()=>{
             console.log(`Admin Paneli ${port}'unda Çalışıyor`)
-        })
-    )
+        });
+    })
     .catch(err=>{console.log(err)})

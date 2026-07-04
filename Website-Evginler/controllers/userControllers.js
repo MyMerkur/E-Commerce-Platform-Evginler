@@ -53,7 +53,7 @@ exports.postRegister = (req, res, next) => {
                     Messages: [
                         {
                             From: {
-                                Email: 'dogukan755@icloud.com',
+                                Email: process.env.MAIL_FROM_EMAIL || 'dogukan755@icloud.com',
                                 Name: 'Evginler'
                             },
                             To: [
@@ -64,7 +64,7 @@ exports.postRegister = (req, res, next) => {
                             ],
                             Subject: 'Welcome to Our Service',
                             TextPart: `Merhaba ${name}, Evginler.com'a hoşgeldiniz.`,
-                            HTMLPart: `<h3>Merhaba ${name}, Evginler.com'a hoşgeldiniz!</h3><br/><a href="http://localhost:5050">Siteye devam et.</a>`
+                            HTMLPart: `<h3>Merhaba ${name}, Evginler.com'a hoşgeldiniz!</h3><br/><a href="${process.env.CLIENT_ORIGIN_STORE || 'http://localhost:5050'}">Siteye devam et.</a>`
                         }
                     ]
                 });

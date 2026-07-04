@@ -137,7 +137,7 @@ exports.postCallback = (req, res) => {
                                                             Messages: [
                                                                 {
                                                                     From: {
-                                                                        Email: 'dogukan755@icloud.com',
+                                                                        Email: process.env.MAIL_FROM_EMAIL || 'dogukan755@icloud.com',
                                                                         Name: 'Evginler'
                                                                     },
                                                                     To: [

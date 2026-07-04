@@ -5,6 +5,7 @@ const axios = require('axios')
 const Order = require('../models/order');
 const Brand = require('../models/brands');
 
+const websiteBaseUrl = process.env.WEBSITE_API_BASE_URL || 'http://localhost:5050';
 
 //Orders Operations
 exports.getOrders = (req, res, next) => {
@@ -18,7 +19,7 @@ exports.getOrders = (req, res, next) => {
 exports.getIncomingOrders = (req, res, next) => {
     const searchQuery = req.query.searchQuery;
 
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             let orders = response.data.filter(order => !order.trackingNumber && !order.isConfirmed);
 
@@ -45,7 +46,7 @@ exports.getIncomingOrders = (req, res, next) => {
 exports.getSearchIncomingOrders = (req, res, next) => {
     const searchQuery = req.query.searchQuery;
 
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             let orders = response.data.filter(order => !order.trackingNumber && !order.isConfirmed);
 
@@ -95,7 +96,7 @@ exports.postIncomingOrders = (req, res, next) => {
 };
 
 exports.getConfirmedOrders = (req, res, next) => {
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             const orders = response.data.filter(order => order.isConfirmed && order.trackingNumber && !order.isDelivered); 
 
@@ -114,7 +115,7 @@ exports.getConfirmedOrders = (req, res, next) => {
 exports.getSearchConfirmedOrders = (req, res, next) => {
     const searchQuery = req.query.searchQuery;
 
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             let orders = response.data.filter(order => order.isConfirmed && order.trackingNumber && !order.isDelivered);
 
@@ -150,7 +151,7 @@ exports.getCanceledOrders = (req, res, next) => {
 exports.postCancelledOrder = (req, res, next) => {
     const orderId = req.params.orderId;
     
-    axios.put(`http://localhost:5050/orders/${orderId}/cancel`)
+    axios.put(`${websiteBaseUrl}/orders/${orderId}/cancel`)
         .then(response => {
             res.redirect('/admin/confirmedOrders');
         })
@@ -163,7 +164,7 @@ exports.postCancelledOrder = (req, res, next) => {
 
 //Delivered Orders
 exports.getDeliveredOrders = (req, res, next) => {
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             const orders = response.data.filter(order => {
                 // Siparişlerin teslim edilmiş olduğu ve hiçbir ürünün iade edilmediği kontrol edilir
@@ -190,7 +191,7 @@ exports.getDeliveredOrders = (req, res, next) => {
 exports.getSearchDeliveredOrders = (req, res, next) => {
     const searchQuery = req.query.searchQuery;
 
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             let orders = response.data.filter(order => {
                 // Siparişlerin teslim edilmiş olduğu ve hiçbir ürünün iade edilmediği kontrol edilir
@@ -239,7 +240,7 @@ exports.postDeliveredOrder = (req, res, next) => {
 };
 //Returned Orders
 // exports.getReturnedOrders = (req, res, next) => {
-//     axios.get('http://localhost:5050/ordersJSON')
+//     axios.get(`${websiteBaseUrl}/ordersJSON`)
 //         .then(response => {
 //             const orders = response.data.filter(order => order.isReturned );
 
@@ -258,7 +259,7 @@ exports.postDeliveredOrder = (req, res, next) => {
 
 exports.getReturnedOrders = (req, res, next) => {
     console.log('İade Listeleniyor...')
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             const orders = response.data.filter(order => {
                 // Siparişlerdeki ve içindeki ürünlerdeki 'isReturned' özelliği kontrol edilir
@@ -285,7 +286,7 @@ exports.getReturnedOrders = (req, res, next) => {
 exports.getSearchReturnedOrders = (req, res, next) => {
     const searchQuery = req.query.searchQuery;
 
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             let orders = response.data.filter(order => {
                 // Siparişlerdeki ve içindeki ürünlerdeki 'isReturned' özelliği kontrol edilir

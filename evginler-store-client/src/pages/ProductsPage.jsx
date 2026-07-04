@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { LayoutGrid, Search } from 'lucide-react'
 import { storeApi } from '../api/storeApi'
 import { LoadingState } from '../components/LoadingState'
+import { Seo } from '../components/Seo'
 import { ProductGrid } from '../features/products/ProductGrid'
 import { useCartActions } from '../features/cart/useCartActions'
 
 export function ProductsPage({ mode }) {
   const params = useParams()
+  const location = useLocation()
   const [searchParams] = useSearchParams()
   const { addItem } = useCartActions()
   const query = {
@@ -36,6 +38,11 @@ export function ProductsPage({ mode }) {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Seo
+        title={title}
+        description={`Evginler Ev Tekstili'nde ${title} - ${products.length} ürün.`}
+        url={`https://evginlerevtekstil.com${location.pathname}`}
+      />
       {/* Page header */}
       <div className="mb-8 overflow-hidden rounded-xl border border-[#ddd6c8] bg-white shadow-sm">
         <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">

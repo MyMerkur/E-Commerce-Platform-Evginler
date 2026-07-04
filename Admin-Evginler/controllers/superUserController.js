@@ -6,42 +6,48 @@ const crypto = require('crypto');
 
 //Register
 exports.getRegister = (req,res,next)=>{
+    if (process.env.NODE_ENV === 'production') {
+        return res.status(403).send('Production ortamında admin kaydı kapalıdır.');
+    }
+
     res.render('superUser/register',{
         title:'Kullanıcı Oluştur',
         path:'/register',
-       
+
     });
 };
-exports.postRegister = (req,res,next)=>{
+exports.postRegister = async (req,res,next)=>{
+    if (process.env.NODE_ENV === 'production') {
+        return res.status(403).send('Production ortamında admin kaydı kapalıdır.');
+    }
+
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
-  
 
-    Admin.findOne({email:email})
-        .then(admin=>{
-            if(admin){
-                req.session.errorMessage = "Daha Önce Bir Kayıt Oluşturulmuş";
-                req.session.save(function(err){
-                    console.log(err);
-                    return res.redirect('/register');
-                })
-            }
-            return bcrypt.hash(password,10);
-        })
-        .then(hashedPassword=>{
-            const newAdmin = new Admin({
-                name: name,
-                email: email,
-                password: hashedPassword,
+    try {
+        const existingAdmin = await Admin.findOne({email:email});
+
+        if (existingAdmin) {
+            req.session.errorMessage = "Daha Önce Bir Kayıt Oluşturulmuş";
+            return req.session.save(function(err){
+                console.log(err);
+                return res.redirect('/register');
             });
-            return newAdmin.save()
-        })
-        .then(()=>{
-            res.redirect('/login')
-        })
-        .catch(err=>{console.log(err)})
+        }
 
+        const hashedPassword = await bcrypt.hash(password,10);
+        const newAdmin = new Admin({
+            name: name,
+            email: email,
+            password: hashedPassword,
+        });
+        await newAdmin.save();
+        res.redirect('/login');
+    } catch (err) {
+        console.log(err);
+        res.redirect('/register');
+    }
 }
 
 //Login

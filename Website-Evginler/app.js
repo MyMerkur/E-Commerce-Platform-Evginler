@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const path = require('path');
-const port = 5050;
+const port = process.env.PORT || 5050;
+
+app.set('trust proxy', 1);
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session); 
 const cookieParser = require('cookie-parser'); 
@@ -173,12 +175,12 @@ app.use((err, req, res, next) => {
 
 
 mongoose.connect(process.env.MONGODB_CONNECT)
-    .then(
-        console.log('MongoDB Bağlantısı Başarılı'),
+    .then(() => {
+        console.log('MongoDB Bağlantısı Başarılı');
         app.listen(port, () => {
             console.log(`Web Sitesi ${port}'unda çalışıyor.`)
-        })
-    )
+        });
+    })
     .catch(err => {
         console.log(err)
     })

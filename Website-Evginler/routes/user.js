@@ -1,14 +1,23 @@
 const express = require('express');
 const routes = express.Router();
+const rateLimit = require('express-rate-limit');
 const userController = require('../controllers/userControllers');
 const locals = require('../middleware/locals');
 const isAuthenticated = require('../middleware/authenticated');
 
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: 'Çok fazla deneme yapıldı. Lütfen daha sonra tekrar deneyin.'
+});
+
 //Login
 routes.get('/login',locals,userController.getLogin);
-routes.post('/login',locals,userController.postLogin);
+routes.post('/login',locals,authLimiter,userController.postLogin);
 //Register
-routes.post('/register',locals,userController.postRegister);
+routes.post('/register',locals,authLimiter,userController.postRegister);
 routes.get('/register',locals,userController.getRegister);
 
 //Profile

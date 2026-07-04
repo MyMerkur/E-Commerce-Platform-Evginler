@@ -11,17 +11,18 @@ const iyzipay = new Iyzipay({
     secretKey: process.env.IYZIPAY_SECRET_KEY,
     uri: process.env.IYZIPAY_URI || 'https://sandbox-api.iyzipay.com'
 });
+const adminBaseUrl = process.env.ADMIN_API_BASE_URL || 'http://localhost:3030';
 const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(price);
 };
 
 exports.getIndex = (req, res, next) => {
     // Kategoriler
-    axios.get('http://localhost:3030/categories/json')
+    axios.get(`${adminBaseUrl}/categories/json`)
         .then(response => {
             const categories = response.data;
 
-            axios.get('http://localhost:3030/products/json')
+            axios.get(`${adminBaseUrl}/products/json`)
                 .then(productResponse => {
                     const products = productResponse.data
                         .map(product => {
@@ -35,7 +36,7 @@ exports.getIndex = (req, res, next) => {
                     console.log("Ürün Marka ID'si:", products[0].brands);
                     console.log('Ürünler', products);
 
-                    axios.get('http://localhost:3030/brands/json')
+                    axios.get(`${adminBaseUrl}/brands/json`)
                         .then(brandResponse => {
                             const brands = brandResponse.data.map(brand => {
                                 return {
@@ -85,9 +86,9 @@ exports.getProductsBySubcategory = (req, res, next) => {
     const subcategory = req.params.subcategory;
 
     Promise.all([
-        axios.get('http://localhost:3030/categories/json'),
-        axios.get('http://localhost:3030/products/json'),
-        axios.get('http://localhost:3030/brands/json')
+        axios.get(`${adminBaseUrl}/categories/json`),
+        axios.get(`${adminBaseUrl}/products/json`),
+        axios.get(`${adminBaseUrl}/brands/json`)
     ])
     .then(([categoryResponse, productResponse, brandResponse]) => {
         const categories = categoryResponse.data;
@@ -123,7 +124,7 @@ exports.getProductsBySubcategory = (req, res, next) => {
 exports.getProductDetails = (req, res, next) => {
     const productId = req.params.productId;
     
-    axios.get(`http://localhost:3030/products/${productId}/json`)
+    axios.get(`${adminBaseUrl}/products/${productId}/json`)
         .then(response => {
             const product = response.data;
             console.log('Detaylı Ürün',product)
@@ -162,7 +163,7 @@ exports.addToCard = (req, res, next) => {
     const { productId, quantity } = req.body;
     const userId = req.user._id;
 
-    axios.get(`http://localhost:3030/products/${productId}/json`)
+    axios.get(`${adminBaseUrl}/products/${productId}/json`)
         .then(response => {
             const product = response.data;
             User.findById(userId)
@@ -237,7 +238,7 @@ exports.postDeleteProduct = (req, res, next) => {
 exports.getSearch = (req, res, next) => {
     const query = req.query.q;
 
-    axios.get(`http://localhost:3030/products/json`)
+    axios.get(`${adminBaseUrl}/products/json`)
         .then(response => {
             const allProducts = response.data;
             const filteredProducts = allProducts.filter(product => product.name.toLowerCase().includes(query.toLowerCase()));
@@ -590,7 +591,7 @@ exports.filterByBrand = (req, res, next) => {
     console.log('Marka id:',brandId)
 
     // Markaları al
-    axios.get('http://localhost:3030/brands/json')
+    axios.get(`${adminBaseUrl}/brands/json`)
         .then(brandResponse => {
             const brands = brandResponse.data.map(brand => {
                 return {
@@ -601,7 +602,7 @@ exports.filterByBrand = (req, res, next) => {
             });
 
             // Ürünleri filtrele
-            axios.get(`http://localhost:3030/products/json`)
+            axios.get(`${adminBaseUrl}/products/json`)
                 .then(response => {
                     const allProducts = response.data;
                     console.log('Tüm ürünler:', allProducts); 

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { storeApi } from '../api/storeApi'
 import { LoadingState } from '../components/LoadingState'
+import { Seo } from '../components/Seo'
 import { Button } from '../components/Button'
 import { ProductGrid } from '../features/products/ProductGrid'
 import { useCartActions } from '../features/cart/useCartActions'
@@ -60,6 +61,7 @@ export function HomePage() {
 
   return (
     <div>
+      <Seo />
       {/* Hero */}
       <section className="relative overflow-hidden bg-white">
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_1fr] lg:gap-12 lg:px-8 lg:py-20">
@@ -71,7 +73,7 @@ export function HomePage() {
             </div>
             <h1 className="mt-4 text-3xl font-bold leading-[1.18] tracking-tight text-[#1e1a17] sm:text-4xl lg:text-5xl">
               Ardahan'ın{' '}
-              <span className="text-[#3d5e35]">köklü</span> ev yaşam{' '}
+              ev yaşam{' '}
               <span className="text-[#7c2d3f]">mağazası</span>
             </h1>
             <p className="mt-5 max-w-lg text-base leading-7 text-[#6b6058]">

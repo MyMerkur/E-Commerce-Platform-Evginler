@@ -48,7 +48,7 @@ exports.register = async (req, res, next) => {
                     To: [{ Email: email, Name: name }],
                     Subject: 'Welcome to Our Service',
                     TextPart: `Merhaba ${name}, Evginler.com'a hoşgeldiniz.`,
-                    HTMLPart: `<h3>Merhaba ${name}, Evginler.com'a hoşgeldiniz!</h3><br/><a href="http://localhost:5050">Siteye devam et.</a>`
+                    HTMLPart: `<h3>Merhaba ${name}, Evginler.com'a hoşgeldiniz!</h3><br/><a href="${process.env.CLIENT_ORIGIN_STORE || 'http://localhost:5050'}">Siteye devam et.</a>`
                 }]
             });
         }

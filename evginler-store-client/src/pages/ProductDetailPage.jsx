@@ -7,6 +7,7 @@ import { storeApi } from '../api/storeApi'
 import { userApi } from '../api/userApi'
 import { Button } from '../components/Button'
 import { LoadingState } from '../components/LoadingState'
+import { Seo } from '../components/Seo'
 import { useCartActions } from '../features/cart/useCartActions'
 import { useAuthStore } from '../store/authStore'
 import { formatCurrency, getDiscountedPrice, getProductImages } from '../utils/formatters'
@@ -120,8 +121,33 @@ export function ProductDetailPage() {
     setQuantity((prev) => Math.max(1, prev + delta))
   }
 
+  const productUrl = `https://evginlerevtekstil.com/products/${product._id}`
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description || undefined,
+    image: images.length ? images : undefined,
+    sku: product.productCode || product._id,
+    offers: {
+      '@type': 'Offer',
+      url: productUrl,
+      priceCurrency: 'TRY',
+      price: String(price),
+      availability: isOutOfStock ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+    },
+  }
+
   return (
     <>
+      <Seo
+        title={product.name}
+        description={product.description || `${product.name} - Evginler Ev Tekstili'nde uygun fiyatlarla.`}
+        image={selectedImage}
+        url={productUrl}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Gallery */}

@@ -25,4 +25,7 @@ coverage/
 .claude/
 .idea/
 .DS_Store
+__MACOSX/
+*.zip
+import-errors.json
 urunler-gorselli.json

@@ -5,8 +5,10 @@ const axios = require('axios');
 const Order = require('../models/order');
 const Brand = require('../models/brands');
 
+const websiteBaseUrl = process.env.WEBSITE_API_BASE_URL || 'http://localhost:5050';
+
 exports.getIndex = (req, res, next) => {
-    axios.get('http://localhost:5050/ordersJSON')
+    axios.get(`${websiteBaseUrl}/ordersJSON`)
         .then(response => {
             // Siparişlerin listesi
             const orders = response.data;
