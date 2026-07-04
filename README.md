@@ -332,6 +332,21 @@ Implemented:
 - Responsive UI
 - Session Authentication
 - CSRF Protection
+- Storefront SEO (per-page meta/Open Graph/Twitter Card, JSON-LD product schema, build-time sitemap generation)
+- Production Deployment (PM2 + reverse proxy, see [Deployment](#deployment))
+
+---
+
+# Deployment
+
+Production deployment configuration lives under [`deploy/`](deploy/):
+
+- `deploy/ecosystem.config.js` — PM2 process configuration for both backends
+- `deploy/nginx/` — reverse proxy configs for a 4-subdomain layout (storefront, admin, and their APIs)
+- `deploy/DEPLOY.md` — step-by-step VPS deployment guide (DNS, builds, reverse proxy, SSL, PM2)
+
+The actual production server for this project runs on OpenLiteSpeed/CyberPanel rather than
+Nginx; the `deploy/nginx/` configs are kept as a reference for Nginx-based hosts.
 
 ---
 
@@ -377,6 +392,8 @@ Admin Dashboard
 This repository is intended for portfolio and technical demonstration purposes.
 
 Commercial use, redistribution or reproduction without permission is prohibited.
+
+See the [LICENSE](LICENSE) file for the full terms.
 
 ---
 
