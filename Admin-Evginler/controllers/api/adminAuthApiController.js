@@ -22,6 +22,11 @@ exports.register = async (req, res) => {
         }
 
         const { name, email, password } = req.body;
+
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            return res.apiError('Geçersiz istek.', 400);
+        }
+
         const existingAdmin = await Admin.findOne({ email });
 
         if (existingAdmin) {
@@ -41,6 +46,11 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            return res.apiError('Geçersiz istek.', 400);
+        }
+
         const admin = await Admin.findOne({ email });
 
         if (!admin) {

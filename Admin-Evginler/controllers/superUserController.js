@@ -25,6 +25,14 @@ exports.postRegister = async (req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        req.session.errorMessage = "Geçersiz istek.";
+        return req.session.save(function(err){
+            console.log(err);
+            return res.redirect('/register');
+        });
+    }
+
     try {
         const existingAdmin = await Admin.findOne({email:email});
 
@@ -63,11 +71,19 @@ exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        req.session.errorMessage = "Geçersiz istek.";
+        return req.session.save(function (err) {
+            console.log(err);
+            return res.redirect('/');
+        });
+    }
+
     Admin.findOne({ email: email })
         .then(admin => {
             if (!admin) {
                 req.session.errorMessage = "Kullanıcı Bulunamadı";
-                req.session.save(function (err) {
+                return req.session.save(function (err) {
                     console.log(err);
                     return res.redirect('/')
                 })

@@ -22,6 +22,11 @@ exports.me = (req, res) => {
 exports.register = async (req, res, next) => {
     try {
         const { name, surname, email, password, phone } = req.body;
+
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            return res.apiError('Geçersiz istek.', 400);
+        }
+
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -63,6 +68,11 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        if (typeof email !== 'string' || typeof password !== 'string') {
+            return res.apiError('Geçersiz istek.', 400);
+        }
+
         const user = await User.findOne({ email });
 
         if (!user) {

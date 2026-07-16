@@ -6,3 +6,7 @@
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+# Güvenlik header'ları (CSP, X-Frame-Options vb.) burada değil, sunucudaki
+# OpenLiteSpeed vhost.conf'ta "context / { extraHeaders ... }" bloğunda
+# tanımlı — bu hosting'de .htaccess'in mod_headers desteği yok.

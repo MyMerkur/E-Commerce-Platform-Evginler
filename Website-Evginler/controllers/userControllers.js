@@ -23,6 +23,14 @@ exports.postRegister = (req, res, next) => {
     const { name, surname, email, password, phone } = req.body;
     console.log('Kayıt Verileri:');
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        req.session.errorMessage = "Geçersiz istek.";
+        return req.session.save(function (err) {
+            console.log(err);
+            return res.redirect('/register');
+        });
+    }
+
     User.findOne({ email: email })
         .then(user => {
             if (user) {
@@ -93,11 +101,19 @@ exports.postLogin = (req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
 
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        req.session.errorMessage = "Geçersiz istek.";
+        return req.session.save(function (err) {
+            console.log(err);
+            return res.redirect('/login');
+        });
+    }
+
     User.findOne({email:email})
         .then(user=>{
             if(!user){
                 req.session.errorMessage = "Kullanıcı Bulunamadı";
-                req.session.save(function(err){
+                return req.session.save(function(err){
                     console.log(err);
                     return res.redirect('/login')
                 })

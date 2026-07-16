@@ -13,8 +13,9 @@ const authLimiter = rateLimit({
     message: 'Çok fazla deneme yapıldı. Lütfen daha sonra tekrar deneyin.'
 });
 
-routes.get('/register',locals,superUserController.getRegister);
-routes.post('/register',locals,authLimiter,superUserController.postRegister);
+// Yeni admin oluşturmak için zaten oturum açmış bir admin gerekir — açık kayıt yüzeyi bırakılmaz.
+routes.get('/register',locals,isAuthenticated,superUserController.getRegister);
+routes.post('/register',locals,authLimiter,isAuthenticated,superUserController.postRegister);
 
 
 routes.get('/',locals,superUserController.getLogin);

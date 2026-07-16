@@ -97,7 +97,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.set('views', './views');    
 app.use(helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            // 'unsafe-inline' korunuyor: eski Pug şablonlarında satır içi script/style kullanımı
+            // tam olarak taranmadığı için önce kırmadan devreye almak amaçlanıyor.
+            scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com', 'https://kit.fontawesome.com'],
+            styleSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com'],
+            fontSrc: ["'self'", 'data:', 'https://cdn.jsdelivr.net', 'https://cdnjs.cloudflare.com', 'https://ka-f.fontawesome.com'],
+            imgSrc: ["'self'", 'data:', 'https:'],
+            connectSrc: ["'self'", 'https://kit.fontawesome.com', 'https://ka-f.fontawesome.com'],
+            objectSrc: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"],
+            frameAncestors: ["'self'"]
+        }
+    }
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -173,7 +188,9 @@ app.use((err, req, res, next) => {
     }
 
     if (req.path.startsWith('/api/')) {
-        return sendApiError(res, 'Beklenmeyen bir hata oluştu.', 500, err.message);
+        console.error('API hatası:', err);
+        const errorDetails = process.env.NODE_ENV === 'production' ? null : err.message;
+        return sendApiError(res, 'Beklenmeyen bir hata oluştu.', 500, errorDetails);
     }
 
     return next(err);
