@@ -6,6 +6,7 @@ const { requireUser } = require('../../middleware/apiAuth');
 router.use(requireUser);
 
 router.get('/', checkoutApiController.getCheckout);
+router.post('/installments', checkoutApiController.getInstallments);
 router.post('/process-payment', checkoutApiController.processPayment);
 
 module.exports = router;

@@ -48,6 +48,52 @@ exports.getCheckout = async (req, res) => {
     }
 };
 
+const MAX_INSTALLMENT = 5;
+
+exports.getInstallments = async (req, res) => {
+    try {
+        const { binNumber } = req.body;
+
+        if (!binNumber || !/^\d{6}$/.test(binNumber)) {
+            return res.apiError('Geçersiz kart numarası.', 400);
+        }
+
+        const user = await User.findById(req.user._id);
+        const totals = calculateTotalPrice(user.cart);
+
+        iyzipay.installmentInfo.retrieve({
+            locale: Iyzipay.LOCALE.TR,
+            conversationId: uuidv4(),
+            binNumber,
+            price: totals.totalPrice.toString()
+        }, (err, result) => {
+            if (err || !result || result.status !== 'success' || !result.installmentDetails?.length) {
+                return res.apiSuccess({ cardType: null, cardAssociation: null, cardFamilyName: null, bankName: null, installments: [] });
+            }
+
+            const detail = result.installmentDetails[0];
+            const installments = (detail.installmentPrices || [])
+                .filter(item => item.installmentNumber <= MAX_INSTALLMENT)
+                .map(item => ({
+                    installmentNumber: item.installmentNumber,
+                    installmentPrice: item.installmentPrice,
+                    totalPrice: item.totalPrice
+                }));
+
+            return res.apiSuccess({
+                cardType: detail.cardType || null,
+                cardAssociation: detail.cardAssociation || null,
+                cardFamilyName: detail.cardFamilyName || null,
+                bankName: detail.bankName || null,
+                installments
+            });
+        });
+    } catch (error) {
+        console.error('Taksit sorgulama API hatası:', error);
+        return res.apiSuccess({ cardType: null, cardAssociation: null, cardFamilyName: null, bankName: null, installments: [] });
+    }
+};
+
 exports.processPayment = async (req, res) => {
     try {
         const user = await User.findById(req.user._id).populate('selectedAddress');
@@ -59,7 +105,8 @@ exports.processPayment = async (req, res) => {
         const currentDate = new Date();
         const lastLoginDate = currentDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
         const registrationDate = user.registrationDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
-        const { cardNumber, expireMonth, expireYear, cvc, cardHolderName, installment } = req.body;
+        const { cardNumber, expireMonth, expireYear, cvc, cardHolderName } = req.body;
+        const installment = Math.min(Math.max(parseInt(req.body.installment, 10) || 1, 1), MAX_INSTALLMENT);
         const totals = calculateTotalPrice(user.cart);
         const selectedAddress = user.selectedAddress;
         const conversationId = uuidv4();

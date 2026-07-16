@@ -189,7 +189,7 @@ export function CheckoutPage() {
         expireMonth: values.expireMonth,
         expireYear: values.expireYear,
         cvc: values.cvc,
-        installment: 1,
+        installment: values.installment || 1,
       },
       {
         onSuccess: (paymentResponse) => {

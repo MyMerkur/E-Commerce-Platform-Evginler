@@ -1,10 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { CreditCard } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { checkoutApi } from '../../api/checkoutApi'
 import { Button } from '../../components/Button'
+import { formatCurrency } from '../../utils/formatters'
 import { formatCardNumber, formatCvc, getPaymentYears, paymentSchema } from './paymentSchema'
 
 const months = Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, '0'))
+
+const CARD_TYPE_LABELS = {
+  CREDIT_CARD: 'Kredi Kartı',
+  DEBIT_CARD: 'Banka Kartı',
+  PREPAID_CARD: 'Ön Ödemeli Kart',
+}
 
 const inputClass =
   'mt-2 h-11 w-full rounded-md border border-[#ddd6c8] bg-white px-3 text-sm outline-none transition focus:border-[#3d5e35] focus:shadow-[0_0_0_3px_rgba(61,94,53,0.08)]'
@@ -19,6 +29,7 @@ export function PaymentForm({ disabled, isPending, onSubmit }) {
     handleSubmit,
     register,
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
@@ -32,9 +43,35 @@ export function PaymentForm({ disabled, isPending, onSubmit }) {
 
   const cardNumberField = register('cardNumber')
   const cvcField = register('cvc')
+  const cardNumberValue = watch('cardNumber')
+
+  const [bin, setBin] = useState('')
+  const [installment, setInstallment] = useState(1)
+
+  useEffect(() => {
+    const digits = String(cardNumberValue || '').replace(/\D/g, '')
+    const timeout = setTimeout(() => {
+      setBin(digits.length >= 6 ? digits.slice(0, 6) : '')
+    }, 500)
+    return () => clearTimeout(timeout)
+  }, [cardNumberValue])
+
+  useEffect(() => {
+    setInstallment(1)
+  }, [bin])
+
+  const { data: installmentInfo } = useQuery({
+    queryKey: ['installments', bin],
+    queryFn: () => checkoutApi.getInstallments({ binNumber: bin }),
+    enabled: bin.length === 6,
+    retry: false,
+  })
+
+  const installmentOptions = installmentInfo?.installments || []
+  const showInstallmentPicker = installmentInfo?.cardType === 'CREDIT_CARD' && installmentOptions.length > 1
 
   const submitPayment = (values) => {
-    onSubmit(values, reset)
+    onSubmit({ ...values, installment }, reset)
   }
 
   return (
@@ -65,6 +102,33 @@ export function PaymentForm({ disabled, isPending, onSubmit }) {
         />
         <FieldError error={errors.cardNumber} />
       </label>
+
+      {bin.length === 6 && installmentInfo?.cardType ? (
+        <div className="sm:col-span-2 flex items-center gap-2 text-xs font-semibold text-[#5f5148]">
+          <CreditCard className="h-3.5 w-3.5 text-[#3d5e35]" />
+          {installmentInfo.bankName ? `${installmentInfo.bankName} · ` : ''}
+          {CARD_TYPE_LABELS[installmentInfo.cardType] || 'Kart'}
+        </div>
+      ) : null}
+
+      {showInstallmentPicker ? (
+        <label className="block sm:col-span-2">
+          <span className="text-sm font-semibold text-[#5f5148]">Taksit seçenekleri</span>
+          <select
+            className={inputClass}
+            value={installment}
+            onChange={(event) => setInstallment(Number(event.target.value))}
+          >
+            {installmentOptions.map((option) => (
+              <option key={option.installmentNumber} value={option.installmentNumber}>
+                {option.installmentNumber === 1
+                  ? `Tek Çekim — ${formatCurrency(option.totalPrice)}`
+                  : `${option.installmentNumber} Taksit — ${formatCurrency(option.installmentPrice)} x ${option.installmentNumber} (Toplam ${formatCurrency(option.totalPrice)})`}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
 
       <label className="block">
         <span className="text-sm font-semibold text-[#5f5148]">Son kullanma ayı</span>
