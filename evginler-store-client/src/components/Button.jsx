@@ -1,11 +1,11 @@
 export function Button({ as: Component = 'button', className = '', variant = 'primary', size = 'md', ...props }) {
   const variants = {
     primary:
-      'bg-[#7c2d3f] text-white shadow-sm hover:bg-[#6a2535] hover:shadow-md active:scale-[0.98] active:shadow-none',
-    secondary: 'bg-[#f0ece4] text-[#1e1a17] hover:bg-[#e6e0d6] active:scale-[0.98]',
+      'bg-maroon text-white shadow-sm hover:bg-maroon-dark hover:shadow-md active:scale-[0.98] active:shadow-none',
+    secondary: 'bg-ink text-white hover:bg-black active:scale-[0.98]',
     outline:
-      'border border-[#ddd6c8] bg-white text-[#1e1a17] hover:bg-[#faf8f4] hover:border-[#7c2d3f] active:scale-[0.98]',
-    ghost: 'text-[#1e1a17] hover:bg-[#f0ece4] active:scale-[0.98]',
+      'border border-border bg-white text-ink hover:border-maroon hover:bg-surface-muted active:scale-[0.98]',
+    ghost: 'text-ink hover:bg-surface-muted active:scale-[0.98]',
     danger: 'bg-[#b83a38] text-white shadow-sm hover:bg-[#9e3030] hover:shadow-md active:scale-[0.98]',
   }
 
@@ -17,7 +17,7 @@ export function Button({ as: Component = 'button', className = '', variant = 'pr
 
   return (
     <Component
-      className={`inline-flex items-center justify-center gap-2 rounded-lg font-semibold tracking-tight transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-md font-semibold tracking-tight transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     />
   )

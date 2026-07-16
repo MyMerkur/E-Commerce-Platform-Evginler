@@ -1,7 +1,18 @@
 import { ProductCard } from './ProductCard'
 import { EmptyState } from '../../components/EmptyState'
+import { ProductCardSkeleton } from '../../components/Skeleton'
 
-export function ProductGrid({ products = [], onAddToCart }) {
+export function ProductGrid({ products = [], onAddToCart, isLoading = false, skeletonCount = 8 }) {
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: skeletonCount }).map((_, index) => (
+          <ProductCardSkeleton key={index} />
+        ))}
+      </div>
+    )
+  }
+
   if (!products.length) {
     return (
       <EmptyState
